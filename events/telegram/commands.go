@@ -102,9 +102,6 @@ func isAddCmd(text string) bool {
 }
 
 func isURL(text string) bool {
-	if !strings.HasPrefix(text, "http://") && !strings.HasPrefix(text, "https://") {
-		text = "https://" + text
-	}
 
 	u, err := url.Parse(text)
 	if err != nil {
