@@ -18,11 +18,11 @@ type Client struct {
 
 const (
 	getUpdatesMethod  = "getUpdates"
-	sendMessageMethod = "sendMassege"
+	sendMessageMethod = "sendMessage"
 )
 
-func New(host string, token string) Client {
-	return Client{
+func NewClient(host string, token string) *Client {
+	return &Client{
 		host:     host,
 		basePath: newBasePath(token),
 		client:   http.Client{},
@@ -49,7 +49,7 @@ func (c *Client) Updates(offset, limit int) (updates []Update, err error) {
 	defer func() { err = e.WrapIfErr("can't do request", err) }()
 	q := url.Values{}
 	q.Add("offset", strconv.Itoa(offset))
-	q.Add("limits", strconv.Itoa(limit))
+	q.Add("limit", strconv.Itoa(limit))
 
 	data, err := c.doRequest(getUpdatesMethod, q)
 	if err != nil {

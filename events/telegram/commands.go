@@ -55,7 +55,9 @@ func (p *Processor) savePage(pageURL string, chatID int, username string) (err e
 	}
 
 	if isExists {
-		p.tg.SendMessage(chatID, msgUnknownCommand)
+		if err := p.tg.SendMessage(chatID, msgAlreadyExists); err != nil {
+			return err
+		}
 	}
 
 	if err := p.storage.Save(page); err != nil {
@@ -100,7 +102,14 @@ func isAddCmd(text string) bool {
 }
 
 func isURL(text string) bool {
-	u, err := url.Parse(text)
+	if !strings.HasPrefix(text, "http://") && !strings.HasPrefix(text, "https://") {
+		text = "https://" + text
+	}
 
-	return u.Host != "" && err != nil
+	u, err := url.Parse(text)
+	if err != nil {
+		return false
+	}
+
+	return u.Host != ""
 }

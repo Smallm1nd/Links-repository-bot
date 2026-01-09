@@ -7,11 +7,11 @@ type UpdatesResponse struct {
 
 type Update struct {
 	ID      int              `json:"update_id"`
-	Message *IncomingMassage `json:"message"`
+	Message *IncomingMessage `json:"message"`
 }
 
-type IncomingMassage struct {
-	Text string `json:"string"`
+type IncomingMessage struct {
+	Text string `json:"text"`
 	From From   `json:"from"`
 	Chat Chat   `json:"chat"`
 }
